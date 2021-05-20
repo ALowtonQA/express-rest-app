@@ -17,7 +17,7 @@ ROUTER.post("/create", async(req, res) => {
         await DOC.save();
         res.status(201).send(NEW_OBJ)
     } catch(err) {
-        console.log(err.message);
+        console.log(err.stack);
         res.status(500).send(err.message);
     }
 });
@@ -28,7 +28,7 @@ ROUTER.get("/getAll", async(req, res) => {
         const MOVIES = await MOVIE.find();
         res.send(MOVIES);
     } catch(err) {
-        console.log(err.message);
+        console.log(err.stack);
         res.status(500).send(err.message);
     }
 });
@@ -38,7 +38,7 @@ ROUTER.get("/get/:id", async(req, res) => {
         const FOUND = await MOVIE.findById(req.params.id);
         res.send(FOUND);
     } catch(err) {
-        console.log(err.message);
+        console.log(err.stack);
         res.status(404).send(err.message);
     }
 });
@@ -53,7 +53,7 @@ ROUTER.put("/update/:id", async(req, res) => {
         )
         res.status(202).send(UPDATED);
     } catch(err) {
-        console.log(err.message);
+        console.log(err.stack);
         res.status(404).send(err.message);
     }
 });
@@ -64,7 +64,7 @@ ROUTER.delete("/delete/:id", async(req, res) => {
         await MOVIE.findByIdAndDelete(req.params.id);
         res.status(204).send();
     } catch(err) {
-        console.log(err.message);
+        console.log(err.stack);
         res.status(404).send(err.message);
     }
 });
