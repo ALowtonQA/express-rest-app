@@ -15,8 +15,9 @@ APP.use(ROUTES);        // Add routes to app
 
 // Connect to MongoDB
 MONGOOSE
-    .connect("mongodb://localhost:27017/mongoose_example", {useNewUrlParser: true, useUnifiedTopology: true})
-    .then(() => {
+    .connect("mongodb://localhost:27017/mongoose_example", {
+        useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false
+    }).then(() => {
         console.log("MongoDB Connection Succesful");
         // Listen for traffic on PORT
         APP.listen(PORT, (err) => {

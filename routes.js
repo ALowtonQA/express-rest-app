@@ -18,6 +18,7 @@ ROUTER.post("/create", async(req, res) => {
         res.status(201).send(NEW_OBJ)
     } catch(err) {
         console.log(err.message);
+        res.status(500).send(err.message);
     }
 });
 
@@ -28,29 +29,45 @@ ROUTER.get("/getAll", async(req, res) => {
         res.send(MOVIES);
     } catch(err) {
         console.log(err.message);
+        res.status(500).send(err.message);
     }
 });
 
 ROUTER.get("/get/:id", async(req, res) => {
     try {
-        const MOVIES = await MOVIE.find();
-        res.send(MOVIES);
+        const FOUND = await MOVIE.findById(req.params.id);
+        res.send(FOUND);
     } catch(err) {
         console.log(err.message);
+        res.status(404).send(err.message);
     }
 });
 
-ROUTER.get("/get/:id", (req, res) => res.send(PPL[req.params.id]));
-
 // Put Requests
-// ROUTER.put("/update/:index", (req, res) => {
-//     res.status(202).send(;
-// });
+ROUTER.put("/update/:id", async(req, res) => {
+    try{
+        const UPDATED = await MOVIE.findByIdAndUpdate(
+            {_id: req.params.id}, 
+            {title: req.query.title},
+            {new: true}
+        )
+        res.status(202).send(UPDATED);
+    } catch(err) {
+        console.log(err.message);
+        res.status(404).send(err.message);
+    }
+});
 
 // Delete Requests
-// ROUTER.delete("/delete/:id", (req, res) => {
-//     res.status(202).send();
-// });
+ROUTER.delete("/delete/:id", async(req, res) => {
+    try {
+        await MOVIE.findByIdAndDelete(req.params.id);
+        res.status(204).send();
+    } catch(err) {
+        console.log(err.message);
+        res.status(404).send(err.message);
+    }
+});
 
 // Export
 module.exports = ROUTER;
