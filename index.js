@@ -4,7 +4,7 @@
 const MONGOOSE = require("mongoose");
 const EXPRESS = require("express");
 const CORS = require("cors");
-const ROUTES = require("./routes");
+const ROUTES = require("./routes/movies");
 const APP = EXPRESS();
 const PORT = 3000;
 
@@ -27,5 +27,3 @@ MONGOOSE
     }).catch((err) => { 
         console.log("MongoDB Connection Failed!!!");
     });
-
-

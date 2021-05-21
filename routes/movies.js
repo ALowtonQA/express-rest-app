@@ -2,7 +2,7 @@
 
 // Setup
 const ROUTER = require("express").Router();
-const MOVIE = require("./models/movie");
+const MOVIE = require("../models/movie");
 
 // Post Requests
 ROUTER.post("/create", async(req, res) => {
@@ -39,7 +39,7 @@ ROUTER.get("/get/:id", async(req, res) => {
         res.send(FOUND);
     } catch(err) {
         console.log(err.stack);
-        res.status(404).send(err.message);
+        res.status(404).send("Could not find a movie with that ID");
     }
 });
 
@@ -50,11 +50,11 @@ ROUTER.put("/update/:id", async(req, res) => {
             {_id: req.params.id}, 
             {title: req.query.title},
             {new: true}
-        )
+        );
         res.status(202).send(UPDATED);
     } catch(err) {
         console.log(err.stack);
-        res.status(404).send(err.message);
+        res.status(404).send("Could not find a movie with that ID");
     }
 });
 
@@ -65,7 +65,7 @@ ROUTER.delete("/delete/:id", async(req, res) => {
         res.status(204).send();
     } catch(err) {
         console.log(err.stack);
-        res.status(404).send(err.message);
+        res.status(404).send("Could not find a movie with that ID");
     }
 });
 
