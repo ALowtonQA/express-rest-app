@@ -18,8 +18,7 @@ ROUTER.post("/create", async(req, res, next) => {
         await DOC.save();
         res.status(201).send(NEW_OBJ)
     } catch(err) {
-        const ERR = new Error(err.message); // Validation from schema provides the appropriate error messages here
-        next(ERR);
+        next(new Error(err.message)); // Validation from schema provides the appropriate error messages here
     }
 });
 
@@ -29,8 +28,7 @@ ROUTER.get("/getAll", async(req, res, next) => {
         const MOVIES = await MOVIE.find();
         (MOVIES.length)? res.send(MOVIES) : next(new Error("ERROR: There are no movies to retrieve"));
     } catch(err) {
-        const ERR = new Error("ERROR: Could not retrieve movies!");
-        next(ERR);
+        next(new Error("ERROR: Could not retrieve movies!"));
     }
 });
 
