@@ -8,6 +8,7 @@ const ROUTES = require("./routes/movies");
 const ERROR_HANDLERS = require("./middleware/errorHandlers");
 const APP = EXPRESS();
 const PORT = 3000;
+
 // Middleware & Routes
 APP.use(CORS());                       // Disable Cross Origin Resource Sharing Restrictions
 APP.use(EXPRESS.json());              // JSON Body Parser

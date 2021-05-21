@@ -10,10 +10,6 @@ let middleware = {
     },
     sendError: (err, req, res, next) => {
         (err instanceof GenericError)? res.status(err.getStatusCode()).send(err.message): res.status(500).send(err.message);
-        // if (err instanceof GenericError) {
-        //     res.status(err.getStatusCode()).send(err.message);
-        // }
-        // res.status(500).send(err.message);
     }
 }
 
