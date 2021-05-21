@@ -27,7 +27,7 @@ ROUTER.post("/create", async(req, res, next) => {
 ROUTER.get("/getAll", async(req, res, next) => {
     try {
         const MOVIES = await MOVIE.find();
-        res.send(MOVIES);
+        (MOVIES.length)? res.send(MOVIES) : next(new Error("ERROR: There are no movies to retrieve"));
     } catch(err) {
         const ERR = new Error("ERROR: Could not retrieve movies!");
         next(ERR);
@@ -37,10 +37,10 @@ ROUTER.get("/getAll", async(req, res, next) => {
 ROUTER.get("/get/:id", async(req, res, next) => {
     try {
         const FOUND = await MOVIE.findById(req.params.id);
-        res.send(FOUND);
+        if (FOUND) res.send(FOUND);
+        next(new NotFound("ERROR: Could not find a movie with that ID"));
     } catch(err) {
-        const ERR = new NotFound("ERROR: Could not find a movie with that ID");
-        next(ERR);
+        next(new NotFound("ERROR: Could not find a movie with that ID"));
     }
 });
 
@@ -52,21 +52,21 @@ ROUTER.put("/update/:id", async(req, res, next) => {
             {title: req.query.title},
             {new: true}
         );
-        res.status(202).send(UPDATED);
+        if (UPDATED) res.status(202).send(UPDATED);
+        next(new NotFound("ERROR: Could not find a movie with that ID"));
     } catch(err) {
-        const ERR = new NotFound("ERROR: Could not find a movie with that ID");
-        next(ERR);
+        next(new NotFound("ERROR: Could not find a movie with that ID"));
     }
 });
 
 // Delete Requests
 ROUTER.delete("/delete/:id", async(req, res, next) => {
     try {
-        await MOVIE.findByIdAndDelete(req.params.id);
-        res.status(204).send();
+        const DELETED = await MOVIE.findByIdAndDelete(req.params.id);
+        if (DELETED) res.status(204).send();
+        next(new NotFound("ERROR: Could not find a movie with that ID"));
     } catch(err) {
-        const ERR = new NotFound("ERROR: Could not find a movie with that ID");
-        next(ERR);
+        next(new NotFound("ERROR: Could not find a movie with that ID"));
     }
 });
 
