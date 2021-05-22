@@ -40,7 +40,7 @@ ROUTER.put("/update/:id", async(req, res, next) => {
     try{
         const UPDATED = await MOVIE.findByIdAndUpdate(
             {_id: req.params.id}, 
-            {title: req.query.title},
+            req.body,
             {new: true}
         );
         (UPDATED)? res.status(202).send(UPDATED) : next(new NotFound("ERROR: Could not find a movie with that ID"));
